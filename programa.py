@@ -1,5 +1,3 @@
-notas = [100, 50, 10, 5, 1]
-
 class Caixa():
     def __init__(self):
         self.notas = [100, 50, 10, 5, 1]
