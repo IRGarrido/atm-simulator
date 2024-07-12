@@ -1,38 +1,45 @@
 notas = [100, 50, 10, 5, 1]
 
-def gerarSaque(saque):
-    quantidade = [0,0,0,0,0]
-    for i in range(5):
-        quantidade[i] = saque//notas[i]
-        saque = saque - quantidade[i] * notas[i]
-    return quantidade
+class Caixa():
+    def __init__(self):
+        self.notas = [100, 50, 10, 5, 1]
+        self.min = 10
+        self.max = 600
 
-def receberValor():
-    valor = input("Insira um valor para sacar: R$ ")
-    try:
-        valor = int(valor)
-    except :
-        print("Valor inserido incorretamente")
-        valor = receberValor()   
-    finally:
-        return valor 
+    def receberValor(self):
+        valor = input("Insira um valor para sacar: R$ ")
+        try:
+            valor = int(valor)
+        except :
+            print("Valor inserido incorretamente")
+            valor = self.receberValor()   
+        finally:
+            return valor 
 
-while True:
-    saque = receberValor()
-    
-    if saque >= 10 and saque <= 600:
-
-        resposta = gerarSaque(saque)
-        print("Serão impressas:")
+    def gerarSaque(self, saque):
+        quantidade = [0,0,0,0,0]
         for i in range(5):
-            print(resposta[i], " notas de R$", notas[i])
-        
-        resposta = input("Sacar novamente? s/n\n")
-        if resposta == "n" or resposta == "N":
-            print("FIM")
-            break
+            quantidade[i] = saque//self.notas[i]
+            saque = saque - quantidade[i] * self.notas[i]
+        return quantidade
+    
+    def saque(self):
+        valor_sacado = self.receberValor()
 
-    elif saque < 10: 
-        print("Saque muito pequeno")
-    else:
-        print("Saque muito grande")
+        if valor_sacado >= self.min and valor_sacado <= self.max:
+            resposta = self.gerarSaque(valor_sacado)
+            print("Serão impressas:")
+            for i in range(5):
+                print(resposta[i], " notas de R$", notas[i])
+            
+            resposta = input("Sacar novamente? s/n\n")
+            if resposta == "n" or resposta == "N":
+                print("FIM")
+        
+        elif valor_sacado < self.min:
+            print(f"Saque insuficiente.\n(minimo = {self.min})")
+        else:
+            print(f"Saque excedente.\n(maximo = {self.max})")
+                
+caixa = Caixa()
+caixa.saque()
